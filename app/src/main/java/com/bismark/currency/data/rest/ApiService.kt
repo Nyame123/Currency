@@ -1,5 +1,6 @@
 package com.bismark.currency.data.rest
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -20,5 +21,5 @@ interface ApiService {
         @Query(FROM) from: String,
         @Query(TO) to: String,
         @Query(AMOUNT) amount: String,
-    ): ConversionResultRaw
+    ): Response<ConversionResultRaw>
 }
