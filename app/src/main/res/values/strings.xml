@@ -5,6 +5,7 @@
     <string name="first_fragment_label">Currency Converter</string>
     <string name="second_fragment_label">History Data</string>
     <string name="swap">swap</string>
+    <string name="detail">Details</string>
 
     <string-array name="currencies">
         <item>EGP</item>
