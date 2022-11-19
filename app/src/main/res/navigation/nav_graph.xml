@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.bismark.currency.FirstFragment"
+        android:name="com.bismark.currency.converter.CurrencyConverterFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_currency_converter">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"

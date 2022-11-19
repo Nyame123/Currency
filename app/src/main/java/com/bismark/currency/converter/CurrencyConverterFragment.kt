@@ -1,4 +1,4 @@
-package com.bismark.currency
+package com.bismark.currency.converter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,18 +7,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bismark.currency.R
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class FirstFragment : Fragment() {
+class CurrencyConverterFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return LayoutInflater.from(context).inflate(R.layout.fragment_first, container, false)
+        return LayoutInflater.from(context).inflate(R.layout.fragment_currency_converter, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

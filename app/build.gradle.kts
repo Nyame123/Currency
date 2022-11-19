@@ -67,11 +67,6 @@ dependencies {
     testImplementation("junit:junit:4.12")
 
     kapt("com.google.dagger:hilt-compiler:2.42")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("com.github.bumptech.glide:glide:4.13.2")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha01")
 
     testImplementation("junit:junit:4.13.2")
