@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.bismark.currency.converter.CurrencyConverterFragment"
+        android:name="com.bismark.currency.ui.converter.CurrencyConverterFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_currency_converter">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.bismark.currency.HistoricalDataFragment"
+        android:name="com.bismark.currency.ui.historicalData.HistoricalDataFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_historical_data">
 

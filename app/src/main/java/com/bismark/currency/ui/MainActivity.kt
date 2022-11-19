@@ -1,4 +1,4 @@
-package com.bismark.currency
+package com.bismark.currency.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,8 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.bismark.currency.R
 
 class MainActivity : AppCompatActivity() {
 
