@@ -8,20 +8,14 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class SecondFragment : Fragment() {
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+class HistoricalDataFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return LayoutInflater.from(context).inflate(R.layout.fragment_second, container, false)
+        return LayoutInflater.from(context).inflate(R.layout.fragment_historical_data, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
