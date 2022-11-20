@@ -4,6 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="com.bismark.currency.ui.converter.state.ConversionRateState" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.bismark.currency.ui.converter.CurrencyConverterViewModel" />
@@ -53,6 +58,11 @@
             android:id="@+id/from_amount_edt"
             android:layout_marginTop="8dp"
             android:text="1.0"
+            app:enableOnSuccess="@{viewModel.conversionRate}"
+            app:amountChanges="@{viewModel.toAmount}"
+            app:rate="@{viewModel.conversionRateInfo}"
+            app:baseCurrency="@{viewModel.baseCurrency}"
+            android:onTextChanged="@{(text,start,before,count)-> viewModel.onFromAmountChanges(text)}"
             android:inputType="numberDecimal"
             app:layout_constraintTop_toBottomOf="@+id/from_currency_spinner"
             app:layout_constraintEnd_toEndOf="@+id/from_currency_spinner"
@@ -63,6 +73,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/to_amount_edt"
             android:layout_marginTop="8dp"
+            app:enableOnSuccess="@{viewModel.conversionRate}"
+            app:amountChanges="@{viewModel.fromAmount}"
+            app:rate="@{viewModel.conversionRateInfo}"
+            app:baseCurrency="@{viewModel.baseCurrency}"
+            android:onTextChanged="@{(text,start,before,count)-> viewModel.onToAmountChanges(text)}"
             android:inputType="numberDecimal"
             app:layout_constraintTop_toBottomOf="@+id/to_currency_spinner"
             app:layout_constraintEnd_toEndOf="@+id/to_currency_spinner"
@@ -76,7 +91,29 @@
             android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/to_amount_edt"/>
+            app:layout_constraintTop_toBottomOf="@+id/to_amount_edt" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            app:hideOnLoading="@{viewModel.conversionRate}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_btn" />
+
+        <TextView
+            android:id="@+id/error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+            app:showOnError="@{viewModel.conversionRate}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     
