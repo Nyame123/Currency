@@ -3,8 +3,12 @@ package com.bismark.currency.ui.converter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bismark.currency.core.Either
+import com.bismark.currency.di.AnnotatedDispatchers
+import com.bismark.currency.di.CurrencyDispatcher
 import com.bismark.currency.domain.ConversionRateRepository
+import com.bismark.currency.popularCurrencies
 import com.bismark.currency.ui.converter.state.ConversionRateState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,10 +17,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.jar.Pack200.Packer.LATEST
+import javax.inject.Inject
 
-class CurrencyConverterViewModel(
-    val conversionRateRepository: ConversionRateRepository,
-    val dispatcher: CoroutineDispatcher
+@HiltViewModel
+class CurrencyConverterViewModel @Inject constructor(
+    private val conversionRateRepository: ConversionRateRepository,
+    @AnnotatedDispatchers(CurrencyDispatcher.DEFAULT) private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _conversionRate = MutableStateFlow<ConversionRateState>(ConversionRateState.Loading)
@@ -42,4 +49,11 @@ class CurrencyConverterViewModel(
         }
 
     }
+
+    fun fetchLatestConverstionRate(from: String, to: String){
+        val symbols = popularCurrencies.apply { add(to) }
+        fetchConversionRate(url = LATEST, base = from, symbols = symbols.joinToString { it })
+    }
+
+    fun calculateRate(from: Double, perRate: Double): Double = from * perRate
 }

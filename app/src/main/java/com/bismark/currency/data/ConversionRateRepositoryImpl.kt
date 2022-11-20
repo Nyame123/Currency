@@ -8,9 +8,10 @@ import com.bismark.currency.data.rest.ConversionResultRaw
 import com.bismark.currency.domain.ConversionRateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class ConversionRateRepositoryImpl(
-    val remoteDataSource: RemoteDataSource
+class ConversionRateRepositoryImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource
 ) : ConversionRateRepository {
 
     override fun fetchConversionRate(

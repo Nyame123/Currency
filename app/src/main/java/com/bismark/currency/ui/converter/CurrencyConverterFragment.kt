@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bismark.currency.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CurrencyConverterFragment : Fragment() {
+
+    val viewModel by viewModels<CurrencyConverterViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,4 +31,6 @@ class CurrencyConverterFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
+
+
 }

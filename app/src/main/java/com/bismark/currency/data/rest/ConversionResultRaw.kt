@@ -10,7 +10,7 @@ data class ConversionResultRaw(
     internal val date: String? = String.empty(),
     internal val timestamp: Long?,
     internal val base: String? = String.empty(),
-    internal val rates: Map<String, Long>?,
+    internal val rates: Map<String, Double>?,
     internal val errorBody: ErrorRaw?
 )
 
