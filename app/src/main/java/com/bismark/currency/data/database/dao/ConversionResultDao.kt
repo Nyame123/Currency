@@ -8,8 +8,8 @@ import com.bismark.currency.data.database.entities.ConversionResultEntity
 interface ConversionResultDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertConversionResult(conversionResultEntity: ConversionResultEntity)
+    suspend fun insertConversionResult(conversionResultEntity: ConversionResultEntity): Long
 
-    @Query("Select * from conversion where date IN (:dateRange)")
-    suspend fun getLastThreeDaysHistory(dateRange: List<String>): List<ConversionResultEntity>
+    @Query("Select * from conversion where date BETWEEN :startDate and :endDate")
+    suspend fun getLastThreeDaysHistory(startDate: Long, endDate: Long): List<ConversionResultEntity>
 }

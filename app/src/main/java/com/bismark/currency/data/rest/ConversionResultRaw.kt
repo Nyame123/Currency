@@ -11,6 +11,7 @@ data class ConversionResultRaw(
     internal val date: String? = String.empty(),
     internal val info: InfoRaw?,
     internal val query: QueryRaw?,
+    internal val errorBody: ErrorRaw?,
     internal val success: Boolean? = false
 ) {
 
@@ -24,6 +25,14 @@ data class ConversionResultRaw(
         success = success ?: false
     )
 }
+
+/**
+ * Information about the Error object
+ **/
+data class ErrorRaw(
+    internal val code: Long? = 0L,
+    internal val info: String? = String.empty()
+)
 
 /**
  * Information about the new rate and timestamp
