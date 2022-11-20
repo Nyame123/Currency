@@ -1,7 +1,8 @@
-package com.bismark.currency.data.datasource.remote
+package com.bismark.currency.data.datasource
 
 import com.bismark.currency.core.Either
 import com.bismark.currency.core.Failure
+import com.bismark.currency.data.datasource.RemoteDataSource
 import com.bismark.currency.data.rest.ApiService
 import com.bismark.currency.data.rest.ConversionResultRaw
 

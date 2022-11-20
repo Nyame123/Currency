@@ -1,14 +1,9 @@
 package com.bismark.currency.di
 
-import android.content.Context
-import androidx.room.Room
-import com.bismark.currency.data.database.ConversionDatabase
-import com.bismark.currency.data.database.DATABASE_NAME
 import com.bismark.currency.data.rest.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -51,11 +46,4 @@ class AppModule {
     @Singleton
     @Provides
     fun providesApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun providesRoomDatabase(@ApplicationContext context: Context): ConversionDatabase =
-        Room.databaseBuilder(context, ConversionDatabase::class.java, DATABASE_NAME)
-            .fallbackToDestructiveMigration()
-            .build()
 }

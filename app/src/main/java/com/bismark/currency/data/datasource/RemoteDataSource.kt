@@ -1,4 +1,4 @@
-package com.bismark.currency.data.datasource.remote
+package com.bismark.currency.data.datasource
 
 import com.bismark.currency.core.Either
 import com.bismark.currency.core.Failure
