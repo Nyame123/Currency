@@ -8,6 +8,6 @@ import java.util.Date
 
 interface ConversionRateRepository {
 
-    suspend fun fetchConversionRate(from: String, to: String, amount: Long): Flow<Either<Failure, ConversionResultEntity>>
-    suspend fun fetchLastThreeDaysHistory(startDate: Long, endDate: Long): Flow<Either<Failure,List<ConversionResultEntity>>>
+    fun fetchConversionRate(from: String, to: String, amount: Long): Flow<Either<Failure, ConversionResultEntity>>
+    fun fetchLastThreeDaysHistory(startDate: Long, endDate: Long): Flow<Either<Failure,List<ConversionResultEntity>>>
 }

@@ -13,23 +13,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class ConversionRateRepositoryImpl(
-    val localDataSource: LocalDataSource,
     val remoteDataSource: RemoteDataSource
 ) : ConversionRateRepository {
 
-    override suspend fun fetchConversionRate(
+    override fun fetchConversionRate(
         from: String,
         to: String,
         amount: Long
     ): Flow<Either<Failure, ConversionResultEntity>> = flow {
         val conversionResultRaw =
             remoteDataSource.fetchConversionRate(from = from, to = to, amount = amount)
-                .onSuccessSuspended { success ->
-                    localDataSource.insertConversionRate(success.asEntity()).onFailureSuspended { failure ->
-                        //emits the error when local saving of the record fails
-                        emit(Either.Left(failure))
-                    }
-                }.onFailureSuspended { failure ->
+                .onFailureSuspended { failure ->
                     //emits the error when remote fetching of the conversion rate fails
                     emit(Either.Left(failure))
                 }
@@ -38,10 +32,10 @@ class ConversionRateRepositoryImpl(
         emit(conversionResultRaw.map { it.asEntity() })
     }
 
-    override suspend fun fetchLastThreeDaysHistory(
+    override fun fetchLastThreeDaysHistory(
         startDate: Long,
         endDate: Long
     ): Flow<Either<Failure, List<ConversionResultEntity>>> = flow {
-        emit(localDataSource.fetchLastThreeDaysHistory(startDate, endDate))
+
     }
 }

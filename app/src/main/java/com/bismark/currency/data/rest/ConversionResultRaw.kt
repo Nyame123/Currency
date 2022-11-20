@@ -2,6 +2,7 @@ package com.bismark.currency.data.rest
 
 import com.bismark.currency.data.database.entities.ConversionResultEntity
 import com.bismark.currency.extensions.empty
+import com.bismark.currency.extensions.toDate
 import com.bismark.currency.extensions.toSafeString
 
 /**
@@ -16,7 +17,7 @@ data class ConversionResultRaw(
 ) {
 
     fun asEntity() = ConversionResultEntity(
-        date = date.toSafeString(),
+        date = date?.toDate(),
         rate = info?.rate ?: 0L,
         timestamp = info?.timestamp ?: 0L,
         from = query?.from.toSafeString(),

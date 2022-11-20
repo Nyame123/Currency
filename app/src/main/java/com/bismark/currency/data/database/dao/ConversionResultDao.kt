@@ -1,10 +1,12 @@
 package com.bismark.currency.data.database.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.bismark.currency.data.database.entities.ConversionResultEntity
 
+@Dao
 interface ConversionResultDao {
 
     @Insert(onConflict = REPLACE)
