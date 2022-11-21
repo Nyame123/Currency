@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bismark.currency.R
@@ -17,7 +19,7 @@ import kotlinx.coroutines.flow.update
 @AndroidEntryPoint
 class CurrencyConverterFragment : Fragment() {
 
-    val viewModel by viewModels<CurrencyConverterViewModel>()
+    val viewModel by activityViewModels<CurrencyConverterViewModel>()
     lateinit var currencyConverterBinding: FragmentCurrencyConverterBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,18 +52,30 @@ class CurrencyConverterFragment : Fragment() {
     }
 
     private fun onCurrencySelected() {
-        currencyConverterBinding.fromCurrencySpinner.setOnItemClickListener { parent, view, position, id ->
-            viewModel.fromCurrencySelected.update {
-                parent.getItemAtPosition(position).toString()
+        currencyConverterBinding.fromCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.fromCurrencySelected.update {
+                    parent?.getItemAtPosition(position).toString()
+                }
+                viewModel.fromCurrencyPosition = position
             }
-            viewModel.fromCurrencyPosition = position
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
         }
 
-        currencyConverterBinding.toCurrencySpinner.setOnItemClickListener { parent, view, position, id ->
-            viewModel.toCurrencySelected.update {
-                parent.getItemAtPosition(position).toString()
+        currencyConverterBinding.toCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.toCurrencySelected.update {
+                    parent?.getItemAtPosition(position).toString()
+                }
+                viewModel.toCurrencyPosition = position
             }
-            viewModel.toCurrencyPosition = position
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
         }
     }
 }

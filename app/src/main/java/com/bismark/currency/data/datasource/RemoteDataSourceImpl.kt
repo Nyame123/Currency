@@ -14,16 +14,32 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiServic
         symbols: String
     ): Either<Failure, ConversionResultRaw> {
         val response = apiService.getLatestConversionRate(url = url, base = base, symbols = symbols)
-        return if (response.isSuccessful) {
-            val body = response.body()
-            if (body?.success == true) {
-                Either.Right(body)
-            } else {
-                Either.Left(Failure.ServerConnectionError(Exception(body?.errorBody?.info)))
-            }
+        return Either.Right(mocked)
+        /*return if (response.success == true) {
+            Either.Right(response)
         } else {
-            Either.Left(Failure.ServerConnectionError(Exception(response.message())))
-        }
+            Either.Left(Failure.ServerConnectionError(Exception(response.errorBody?.info)))
+        }*/
     }
 
 }
+
+val mocked = ConversionResultRaw(
+    success = true,
+    date = "2022-11-21",
+    timestamp = 1669030923,
+    base = "USD",
+    rates = mutableMapOf<String, Double>().apply {
+        put("GBP",0.845498)
+        put("GHS",0.845498)
+        put("EUR",0.845498)
+        put("JPY",0.1122)
+        put("AUD",2.845498)
+        put("CHF",2.845498)
+        put("CNH",2.845498)
+        put("HDK",2.845498)
+        put("NZD",2.845498)
+        put("USD",2.845498)
+    },
+    errorBody = null
+)
