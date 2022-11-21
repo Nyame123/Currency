@@ -1,6 +1,7 @@
 package com.bismark.currency.data.rest
 
 import com.bismark.currency.extensions.empty
+import com.google.gson.annotations.SerializedName
 
 /**
  * Conversion Result object
@@ -11,7 +12,7 @@ data class ConversionResultRaw(
     internal val timestamp: Long?,
     internal val base: String? = String.empty(),
     internal val rates: Map<String, Double>,
-    internal val errorBody: ErrorRaw?
+   @SerializedName("error") internal val errorBody: ErrorRaw?
 )
 
 /**
