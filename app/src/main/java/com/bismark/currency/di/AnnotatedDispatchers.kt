@@ -8,5 +8,5 @@ annotation class AnnotatedDispatchers(val dispatcher: CurrencyDispatcher) {
 }
 
 enum class CurrencyDispatcher {
-    DEFAULT
+    IO
 }
