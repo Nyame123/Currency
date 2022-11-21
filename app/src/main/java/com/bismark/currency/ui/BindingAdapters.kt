@@ -7,7 +7,6 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bismark.currency.R
-import com.bismark.currency.data.rest.ConversionResultRaw
 import com.bismark.currency.ui.converter.state.ConversionRateState
 
 /**
@@ -75,15 +74,3 @@ fun AppCompatEditText.enableOnSuccess(conversionRateState: ConversionRateState?)
         }
     }
 }
-
-/**
- * Adapter to react to amount changes on `Currency Amount` changes in databinding
- **/
-@BindingAdapter("amountChanges", "rate", "baseCurrency", requireAll = false)
-fun AppCompatEditText.reactToOnFromAmountChanges(amountChanges: Double?, rate: ConversionResultRaw?, baseCurrency: String?) {
-    rate?.rates?.get(baseCurrency)?.let {
-        setText((it * (amountChanges ?: 0.0)).toString())
-    }
-}
-
-

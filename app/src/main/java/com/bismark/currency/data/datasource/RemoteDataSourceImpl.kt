@@ -39,7 +39,8 @@ val mocked = ConversionResultRaw(
         put("CNH",2.845498)
         put("HDK",2.845498)
         put("NZD",2.845498)
-        put("USD",2.845498)
+        put("EGP",2.845498)
+        put("USD",1.845498)
     },
     errorBody = null
 )
