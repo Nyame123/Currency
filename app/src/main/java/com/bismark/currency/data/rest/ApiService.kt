@@ -22,5 +22,5 @@ interface ApiService {
         @Query(ACCESS_KEY) accessKey: String = ACCESS_VALUE,
         @Query(BASE) base: String,
         @Query(SYMBOL) symbols: String,
-    ): Response<ConversionResultRaw>
+    ): ConversionResultRaw
 }
