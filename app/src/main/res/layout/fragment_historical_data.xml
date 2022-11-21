@@ -2,7 +2,9 @@
 <layout>
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.bismark.currency.ui.converter.CurrencyConverterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,23 +22,173 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/history_recyclerView"
-            app:layout_constraintTop_toTopOf="parent"
+        <TextView
+            android:id="@+id/history_list_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History List"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider_guideline"/>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/other_currencies_recyclerView"
+            android:id="@+id/history_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/history_list_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider_guideline">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <ProgressBar
+                    android:id="@+id/last_day_1_progress_bar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:hideOnLoading="@{viewModel.historyRateOne}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_1_history_name_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Yesterday"
+                    app:layout_constraintBottom_toTopOf="@+id/last_day_1_history_value_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_1_history_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="hsdfdsfdsd"
+                    app:baseCurrency="@{viewModel.baseCurrency}"
+                    app:rate="@{viewModel.historyRateOne}"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_1_history_name_tv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <ProgressBar
+                    android:id="@+id/last_day_2_day_progress_bar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:hideOnLoading="@{viewModel.historyRateTwo}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_2_history_name_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Last Two Days"
+                    app:layout_constraintBottom_toTopOf="@+id/last_day_2_history_value_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_2_history_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="hsdfdsfdsd"
+                    app:baseCurrency="@{viewModel.baseCurrency}"
+                    app:rate="@{viewModel.historyRateTwo}"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_2_history_name_tv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <ProgressBar
+                    android:id="@+id/day_3_progress_bar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:hideOnLoading="@{viewModel.historyRateThree}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_3_history_name_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Last Three Days"
+                    app:layout_constraintBottom_toTopOf="@+id/last_day_3_history_value_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/last_day_3_history_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="hsdfdsfdsd"
+                    app:baseCurrency="@{viewModel.baseCurrency}"
+                    app:rate="@{viewModel.historyRateThree}"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_3_history_name_tv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/other_currency_list_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other Currencies"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/divider_guideline"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:id="@+id/other_currencies_content"
+            app:layout_constraintTop_toBottomOf="@+id/other_currency_list_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider_guideline"/>
+            app:layout_constraintStart_toEndOf="@+id/divider_guideline" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
