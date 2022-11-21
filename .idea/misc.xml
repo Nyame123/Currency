@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_currency_converter.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_historical_data.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_historical_data.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/history_content_layout.xml" value="0.10185185185185185" />
+        <entry key="app/src/main/res/layout/other_currency_item_layout.xml" value="0.25" />
       </map>
     </option>
   </component>
