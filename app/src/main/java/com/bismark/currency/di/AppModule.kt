@@ -32,8 +32,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    @AnnotatedDispatchers(CurrencyDispatcher.DEFAULT)
-    fun provideCoroutineBackgroundDispatcher(): CoroutineDispatcher = Dispatchers.Default
+    @AnnotatedDispatchers(CurrencyDispatcher.IO)
+    fun provideCoroutineBackgroundDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Singleton
     @Provides

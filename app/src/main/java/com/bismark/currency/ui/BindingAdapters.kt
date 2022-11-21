@@ -4,7 +4,9 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.bismark.currency.R
 import com.bismark.currency.data.rest.ConversionResultRaw
 import com.bismark.currency.ui.converter.state.ConversionRateState
 
@@ -12,23 +14,46 @@ import com.bismark.currency.ui.converter.state.ConversionRateState
  * Adapter to control visibility of progress bar in databinding
  **/
 @BindingAdapter("hideOnLoading")
-fun ProgressBar.showOnLoading(conversionRateState: ConversionRateState) {
-    visibility = if (conversionRateState is ConversionRateState.Loading) View.VISIBLE else View.GONE
+fun ProgressBar.showOnLoading(conversionRateState: ConversionRateState?) {
+    conversionRateState?.let {
+        visibility = if (conversionRateState is ConversionRateState.Loading) View.VISIBLE else View.GONE
+    }
 }
 
 /**
  * Adapter to control visibility of Error textview in databinding
  **/
 @BindingAdapter("showOnError")
-fun TextView.showOnError(conversionRateState: ConversionRateState) {
-    when (conversionRateState) {
-        is Error -> {
-            visibility = View.VISIBLE
-            text = conversionRateState.message
+fun TextView.showOnError(conversionRateState: ConversionRateState?) {
+    conversionRateState?.let {
+        when (conversionRateState) {
+            is ConversionRateState.Error -> {
+                visibility = View.VISIBLE
+                text = conversionRateState.message
+            }
+
+            else -> {
+                visibility = View.GONE
+            }
+        }
+    }
+}
+
+/**
+ * Adapter to control what is shown on the textview based on the UI state in databinding
+ **/
+@BindingAdapter("baseCurrency", "rate", requireAll = false)
+fun TextView.displayText(baseCurrency: String?, rate: ConversionRateState?) {
+    when (rate) {
+        is ConversionRateState.Error -> {
+            setTextColor(ContextCompat.getColor(context, R.color.red))
+            text = rate.message
         }
 
-        else -> {
-            visibility = View.GONE
+        is ConversionRateState.Success -> {
+            rate.data.rates[baseCurrency]?.let {
+                text = it.toString()
+            }
         }
     }
 }
@@ -37,14 +62,16 @@ fun TextView.showOnError(conversionRateState: ConversionRateState) {
  * Adapter to enable entry on Success only in databinding
  **/
 @BindingAdapter("enableOnSuccess")
-fun AppCompatEditText.enableOnSuccess(conversionRateState: ConversionRateState) {
-    isEnabled = when (conversionRateState) {
-        is ConversionRateState.Success -> {
-            true
-        }
+fun AppCompatEditText.enableOnSuccess(conversionRateState: ConversionRateState?) {
+    conversionRateState?.let {
+        isEnabled = when (conversionRateState) {
+            is ConversionRateState.Success -> {
+                true
+            }
 
-        else -> {
-            false
+            else -> {
+                false
+            }
         }
     }
 }
@@ -53,9 +80,9 @@ fun AppCompatEditText.enableOnSuccess(conversionRateState: ConversionRateState) 
  * Adapter to react to amount changes on `Currency Amount` changes in databinding
  **/
 @BindingAdapter("amountChanges", "rate", "baseCurrency", requireAll = false)
-fun AppCompatEditText.reactToOnFromAmountChanges(amountChanges: Double, rate: ConversionResultRaw?, baseCurrency: String) {
+fun AppCompatEditText.reactToOnFromAmountChanges(amountChanges: Double?, rate: ConversionResultRaw?, baseCurrency: String?) {
     rate?.rates?.get(baseCurrency)?.let {
-        setText((it * amountChanges).toString())
+        setText((it * (amountChanges ?: 0.0)).toString())
     }
 }
 
