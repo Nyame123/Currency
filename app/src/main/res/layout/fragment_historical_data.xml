@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.bismark.currency.ui.converter.CurrencyConverterViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,33 +9,37 @@
         android:padding="16dp"
         tools:context=".ui.historicalData.HistoricalDataFragment">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:id="@+id/divider_guideline"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"/>
-
         <TextView
             android:id="@+id/history_list_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="History List"
-            android:textSize="16sp"
             android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/divider_guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/divider_guideline"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/other_currency_list_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other Currencies"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/history_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/history_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/history_list_header"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/divider_guideline">
+            app:layout_constraintEnd_toStartOf="@+id/divider_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/history_list_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -73,13 +71,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:baseCurrency="@{viewModel.toCurrency}"
-                    app:rate="@{viewModel.historyRateOne}"
                     android:textColor="@color/black"
+                    app:baseCurrency="@{viewModel.toCurrency}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/last_day_1_history_name_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_1_history_name_tv"
+                    app:rate="@{viewModel.historyRateOne}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -113,13 +111,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:baseCurrency="@{viewModel.toCurrency}"
-                    app:rate="@{viewModel.historyRateTwo}"
                     android:textColor="@color/black"
+                    app:baseCurrency="@{viewModel.toCurrency}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/last_day_2_history_name_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_2_history_name_tv"
+                    app:rate="@{viewModel.historyRateTwo}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,39 +151,42 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:baseCurrency="@{viewModel.toCurrency}"
-                    app:rate="@{viewModel.historyRateThree}"
                     android:textColor="@color/black"
+                    app:baseCurrency="@{viewModel.toCurrency}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/last_day_3_history_name_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/last_day_3_history_name_tv"
+                    app:rate="@{viewModel.historyRateThree}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <TextView
-            android:id="@+id/other_currency_list_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other Currencies"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/divider_guideline"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/other_currencies_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:id="@+id/other_currencies_content"
-            app:layout_constraintTop_toBottomOf="@+id/other_currency_list_header"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider_guideline" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/other_currency_list_header" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/divider_guideline"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.bismark.currency.ui.converter.CurrencyConverterViewModel" />
+    </data>
 
 </layout>

@@ -3,26 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/currencyConverterFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/currencyConverterFragment"
         android:name="com.bismark.currency.ui.converter.CurrencyConverterFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_currency_converter">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_currencyConverterFragment_to_HistoricalDataFragment"
+            app:destination="@id/historicalDataFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/historicalDataFragment"
         android:name="com.bismark.currency.ui.historicalData.HistoricalDataFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_historical_data">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
