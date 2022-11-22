@@ -9,6 +9,7 @@ import com.bismark.currency.data.rest.ConversionResultRaw
 import com.bismark.currency.di.AnnotatedDispatchers
 import com.bismark.currency.di.CurrencyDispatcher
 import com.bismark.currency.domain.ConversionRateRepository
+import com.bismark.currency.domain.usecase.NetworkConnectivity
 import com.bismark.currency.popularCurrencies
 import com.bismark.currency.ui.converter.state.ConversionRateState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,12 +26,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
-import java.util.jar.Pack200.Packer.LATEST
 import javax.inject.Inject
 
 @HiltViewModel
 class CurrencyConverterViewModel @Inject constructor(
     private val conversionRateRepository: ConversionRateRepository,
+    private val connectivity: NetworkConnectivity,
     @AnnotatedDispatchers(CurrencyDispatcher.IO) private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -94,49 +95,65 @@ class CurrencyConverterViewModel @Inject constructor(
     }
 
     fun fetchHistoricalRate(urls: List<String>, base: String, symbols: String) {
-        val historicalConversionRateOne: Flow<Either<Failure, ConversionResultRaw>> =
-            conversionRateRepository.fetchConversionRate(url = urls[0], base = base, symbols = symbols)
-        val historicalConversionRateTwo: Flow<Either<Failure, ConversionResultRaw>> =
-            conversionRateRepository.fetchConversionRate(url = urls[1], base = base, symbols = symbols)
-        val historicalConversionRateThree: Flow<Either<Failure, ConversionResultRaw>> =
-            conversionRateRepository.fetchConversionRate(url = urls[2], base = base, symbols = symbols)
-        viewModelScope.launch {
-            historicalConversionRateOne.zip(historicalConversionRateTwo) { historyOne, historyTwo ->
-                Pair(historyOne, historyTwo)
-            }.zip(historicalConversionRateThree) { pair, historyThree ->
-                Pair(pair, historyThree)
-            }.flowOn(dispatcher)
-                .collectLatest {triple ->
-                    //first historical response
-                    when (val first = triple.first.first) {
-                        is Either.Right -> _historyRateOne.value = ConversionRateState.Success(data = first.b)
-                        is Either.Left ->  _historyRateOne.value = ConversionRateState.Error(
-                            message = first.a.getFailureMessage()
-                        )
-                    }
+        if (connectivity.isConnected()) {
+            val historicalConversionRateOne: Flow<Either<Failure, ConversionResultRaw>> =
+                conversionRateRepository.fetchConversionRate(url = urls[0], base = base, symbols = symbols).onStart {
+                    _historyRateOne.value = ConversionRateState.Loading
+                }
+            val historicalConversionRateTwo: Flow<Either<Failure, ConversionResultRaw>> =
+                conversionRateRepository.fetchConversionRate(url = urls[1], base = base, symbols = symbols).onStart {
+                    _historyRateTwo.value = ConversionRateState.Loading
+                }
+            val historicalConversionRateThree: Flow<Either<Failure, ConversionResultRaw>> =
+                conversionRateRepository.fetchConversionRate(url = urls[2], base = base, symbols = symbols).onStart {
+                    _historyRateThree.value = ConversionRateState.Loading
+                }
+            viewModelScope.launch {
+                historicalConversionRateOne.zip(historicalConversionRateTwo) { historyOne, historyTwo ->
+                    Pair(historyOne, historyTwo)
+                }.zip(historicalConversionRateThree) { pair, historyThree ->
+                    Pair(pair, historyThree)
+                }.flowOn(dispatcher)
+                    .collectLatest { triple ->
+                        //first historical response
+                        when (val first = triple.first.first) {
+                            is Either.Right -> _historyRateOne.value = ConversionRateState.Success(data = first.b)
+                            is Either.Left -> _historyRateOne.value = ConversionRateState.Error(
+                                message = first.a.getFailureMessage()
+                            )
+                        }
 
-                    //second historical response
-                    when (val second = triple.first.second) {
-                        is Either.Right -> _historyRateTwo.value = ConversionRateState.Success(data = second.b)
-                        is Either.Left -> _historyRateTwo.value = ConversionRateState.Error(
-                            message = second.a.getFailureMessage()
-                        )
-                    }
+                        //second historical response
+                        when (val second = triple.first.second) {
+                            is Either.Right -> _historyRateTwo.value = ConversionRateState.Success(data = second.b)
+                            is Either.Left -> _historyRateTwo.value = ConversionRateState.Error(
+                                message = second.a.getFailureMessage()
+                            )
+                        }
 
-                    //third historical response
-                    when (val third = triple.second) {
-                        is Either.Right -> _historyRateThree.value = ConversionRateState.Success(data = third.b)
-                        is Either.Left -> _historyRateThree.value = ConversionRateState.Error(
-                            message = third.a.getFailureMessage()
-                        )
-                    }
+                        //third historical response
+                        when (val third = triple.second) {
+                            is Either.Right -> _historyRateThree.value = ConversionRateState.Success(data = third.b)
+                            is Either.Left -> _historyRateThree.value = ConversionRateState.Error(
+                                message = third.a.getFailureMessage()
+                            )
+                        }
 
+                    }
             }
+        } else {
+            _historyRateOne.value = ConversionRateState.Error(message = "Internet Connectivity Error")
+            _historyRateTwo.value = ConversionRateState.Error(message = "Internet Connectivity Error")
+            _historyRateThree.value = ConversionRateState.Error(message = "Internet Connectivity Error")
         }
     }
 
     private fun fetchLatestConversionRate(from: String, to: String) {
-        val symbols = popularCurrencies.apply { add(to) }
-        fetchConversionRate(url = ApiService.LATEST, base = from, symbols = symbols.joinToString { it })
+        if (connectivity.isConnected()) {
+            val symbols = popularCurrencies.apply { add(to) }
+            fetchConversionRate(url = ApiService.LATEST, base = from, symbols = symbols.joinToString { it })
+        }else{
+            _conversionRate.value = ConversionRateState.Error(message = "Internet Connectivity Error")
+        }
     }
 }

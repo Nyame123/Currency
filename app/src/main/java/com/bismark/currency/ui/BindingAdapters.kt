@@ -51,6 +51,7 @@ fun TextView.displayText(baseCurrency: String?, rate: ConversionRateState?) {
 
         is ConversionRateState.Success -> {
             rate.data.rates?.get(baseCurrency)?.let {
+                setTextColor(ContextCompat.getColor(context, R.color.black))
                 text = it.toString()
             }
         }
