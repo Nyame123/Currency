@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bismark.currency.core.Either
 import com.bismark.currency.core.Failure
+import com.bismark.currency.data.rest.ApiService
 import com.bismark.currency.data.rest.ConversionResultRaw
 import com.bismark.currency.di.AnnotatedDispatchers
 import com.bismark.currency.di.CurrencyDispatcher
@@ -110,7 +111,7 @@ class CurrencyConverterViewModel @Inject constructor(
                     when (val first = triple.first.first) {
                         is Either.Right -> _historyRateOne.value = ConversionRateState.Success(data = first.b)
                         is Either.Left ->  _historyRateOne.value = ConversionRateState.Error(
-                            message = first.a.getFailureMessage() ?: "Unknown Error"
+                            message = first.a.getFailureMessage()
                         )
                     }
 
@@ -118,7 +119,7 @@ class CurrencyConverterViewModel @Inject constructor(
                     when (val second = triple.first.second) {
                         is Either.Right -> _historyRateTwo.value = ConversionRateState.Success(data = second.b)
                         is Either.Left -> _historyRateTwo.value = ConversionRateState.Error(
-                            message = second.a.getFailureMessage() ?: "Unknown Error"
+                            message = second.a.getFailureMessage()
                         )
                     }
 
@@ -126,7 +127,7 @@ class CurrencyConverterViewModel @Inject constructor(
                     when (val third = triple.second) {
                         is Either.Right -> _historyRateThree.value = ConversionRateState.Success(data = third.b)
                         is Either.Left -> _historyRateThree.value = ConversionRateState.Error(
-                            message = third.a.getFailureMessage() ?: "Unknown Error"
+                            message = third.a.getFailureMessage()
                         )
                     }
 
@@ -136,6 +137,6 @@ class CurrencyConverterViewModel @Inject constructor(
 
     private fun fetchLatestConversionRate(from: String, to: String) {
         val symbols = popularCurrencies.apply { add(to) }
-        fetchConversionRate(url = LATEST, base = from, symbols = symbols.joinToString { it })
+        fetchConversionRate(url = ApiService.LATEST, base = from, symbols = symbols.joinToString { it })
     }
 }

@@ -81,6 +81,8 @@ class CurrencyConverterFragment : Fragment() {
                 currencyConverterViewModel.fromCurrencySelected.update {
                     parent?.getItemAtPosition(position).toString()
                 }
+                currencyConverterBinding.fromAmountEdt.setText("1.0")
+                currencyConverterBinding.toAmountEdt.setText("")
                 currencyConverterViewModel.fromCurrencyPosition = position
             }
 

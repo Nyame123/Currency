@@ -14,12 +14,12 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiServic
         symbols: String
     ): Either<Failure, ConversionResultRaw> {
         val response = apiService.getLatestConversionRate(url = url, base = base, symbols = symbols)
-        return Either.Right(mocked)
-        /*return if (response.success == true) {
+        //return Either.Right(mocked)
+        return if (response.success == true) {
             Either.Right(response)
         } else {
             Either.Left(Failure.ServerConnectionError(Exception(response.errorBody?.info)))
-        }*/
+        }
     }
 
 }

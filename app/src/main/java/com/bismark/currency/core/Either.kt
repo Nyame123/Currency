@@ -13,3 +13,19 @@ sealed class Either<out L, out R> {
     fun <L> left(a: L) = Left(a)
     fun <R> right(b: R) = Right(b)
 }
+
+/**
+ * Unwrap [Either] and return the left value or null if [Either] is right
+ */
+fun <T> Either<T, Any>.leftOrNull(): T? = when (this) {
+    is Either.Left -> a
+    is Either.Right -> null
+}
+
+/**
+ * Unwrap [Either] and return the right value or null if [Either] is left
+ */
+fun <T> Either<Any, T>.rightOrNull(): T? = when (this) {
+    is Either.Right -> b
+    is Either.Left -> null
+}

@@ -8,7 +8,7 @@ val popularCurrencies = mutableListOf<String>().apply {
     add("AUD")
     add("CAD")
     add("CHF")
-    add("CNH")
-    add("HDK")
+    add("SGD")
+    add("GHS")
     add("NZD")
 }

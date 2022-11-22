@@ -7,10 +7,10 @@ import retrofit2.http.Url
 interface ApiService {
     companion object {
 
-        const val BASE_URL = "https://data.fixer.io/api/"
-        private const val LATEST = "latest"
-        private const val ACCESS_KEY = "access_key"
-        private const val ACCESS_VALUE = "sZ4IS8QZ1ekB56IFwDZOki0usvUzFCZr"
+        const val BASE_URL = "https://api.apilayer.com/fixer/"
+        const val LATEST = "latest"
+        private const val ACCESS_KEY = "apikey"
+        private const val ACCESS_VALUE = "ilEY0zFZqp1XuKoC4bpnI8XfB1JSn5AA"
         private const val BASE = "base"
         private const val SYMBOL = "symbols"
     }

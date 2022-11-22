@@ -50,10 +50,12 @@ fun TextView.displayText(baseCurrency: String?, rate: ConversionRateState?) {
         }
 
         is ConversionRateState.Success -> {
-            rate.data.rates[baseCurrency]?.let {
+            rate.data.rates?.get(baseCurrency)?.let {
                 text = it.toString()
             }
         }
+
+        else -> {}
     }
 }
 

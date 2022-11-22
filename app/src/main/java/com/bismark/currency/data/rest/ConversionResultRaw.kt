@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName
 data class ConversionResultRaw(
     internal val success: Boolean? = false,
     internal val date: String? = String.empty(),
-    internal val timestamp: Long?,
+    internal val timestamp: Long? = 0L,
     internal val base: String? = String.empty(),
-    internal val rates: Map<String, Double>,
+    internal val rates: Map<String, Double>? = null,
    @SerializedName("error") internal val errorBody: ErrorRaw?
 )
 
