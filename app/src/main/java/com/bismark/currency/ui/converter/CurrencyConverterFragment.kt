@@ -25,6 +25,14 @@ class CurrencyConverterFragment : Fragment() {
     val currencyConverterViewModel by activityViewModels<CurrencyConverterViewModel>()
     lateinit var currencyConverterBinding: FragmentCurrencyConverterBinding
 
+
+
+
+    companion object{
+        private const val FROM_SELECTION_POSITION = "to_selection_position"
+        private const val TO_SELECTION_POSITION = "from_selection_position"
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,12 +48,24 @@ class CurrencyConverterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        restoreState(savedInstanceState)
         handleEditTextOnTextChange()
-        onCurrencySelected()
+        onCurrencySelected(savedInstanceState)
         onSwapCurrencies()
         view.findViewById<Button>(R.id.detail_btn).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+    }
+
+    private fun restoreState(savedInstanceState: Bundle?){
+        with(currencyConverterBinding){
+            savedInstanceState?.let {
+                fromAmountEdt.setText(savedInstanceState.getString(currencyConverterViewModel.baseCurrency))
+                toAmountEdt.setText(savedInstanceState.getString(currencyConverterViewModel.toCurrency))
+
+                currencyConverterBinding.toCurrencySpinner.setSelection(savedInstanceState.getInt(TO_SELECTION_POSITION))
+                currencyConverterBinding.fromCurrencySpinner.setSelection(savedInstanceState.getInt(FROM_SELECTION_POSITION))
+            }
         }
     }
 
@@ -75,14 +95,21 @@ class CurrencyConverterFragment : Fragment() {
         }
     }
 
-    private fun onCurrencySelected() {
+    private fun onCurrencySelected(savedInstanceState: Bundle?) {
         currencyConverterBinding.fromCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 currencyConverterViewModel.fromCurrencySelected.update {
                     parent?.getItemAtPosition(position).toString()
                 }
-                currencyConverterBinding.fromAmountEdt.setText("1.0")
-                currencyConverterBinding.toAmountEdt.setText("")
+
+                if (savedInstanceState?.containsKey(currencyConverterViewModel.baseCurrency) == false){
+                    currencyConverterBinding.fromAmountEdt.setText("1.0")
+                }
+
+                if (savedInstanceState?.containsKey(currencyConverterViewModel.toCurrency) == false){
+                    currencyConverterBinding.toAmountEdt.setText("")
+                }
+
                 currencyConverterViewModel.fromCurrencyPosition = position
             }
 
@@ -103,5 +130,13 @@ class CurrencyConverterFragment : Fragment() {
             }
 
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(currencyConverterViewModel.baseCurrency, currencyConverterBinding.fromAmountEdt.text.toString())
+        outState.putString(currencyConverterViewModel.toCurrency, currencyConverterBinding.toAmountEdt.text.toString())
+        outState.putInt(TO_SELECTION_POSITION, currencyConverterViewModel.toCurrencyPosition)
+        outState.putInt(FROM_SELECTION_POSITION, currencyConverterViewModel.fromCurrencyPosition)
     }
 }
