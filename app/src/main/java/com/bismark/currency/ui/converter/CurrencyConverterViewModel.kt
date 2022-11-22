@@ -2,7 +2,6 @@ package com.bismark.currency.ui.converter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bismark.currency.R
 import com.bismark.currency.core.Either
 import com.bismark.currency.core.Failure
 import com.bismark.currency.data.rest.ApiService
@@ -17,6 +16,7 @@ import com.bismark.currency.popularCurrencies
 import com.bismark.currency.ui.converter.state.ConversionRateState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class CurrencyConverterViewModel @Inject constructor(
     private val conversionRateRepository: ConversionRateRepository,
     private val connectivity: NetworkConnectivity,
-    @AnnotatedDispatchers(CurrencyDispatcher.IO) private val dispatcher: CoroutineDispatcher
+    @AnnotatedDispatchers(CurrencyDispatcher.IO) private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
 
     private val _conversionRate = MutableStateFlow<ConversionRateState?>(null)
@@ -85,7 +85,7 @@ class CurrencyConverterViewModel @Inject constructor(
                         )
                     }
                 }
-                .flowOn(dispatcher)
+               // .flowOn(dispatcher)
                 .catch {
                     _conversionRate.value = ConversionRateState.Error(message = FLOW_CONNECTION_ERROR)
                 }.collectLatest {
@@ -112,11 +112,8 @@ class CurrencyConverterViewModel @Inject constructor(
                     _historyRateThree.value = ConversionRateState.Loading
                 }
             viewModelScope.launch {
-                historicalConversionRateOne.zip(historicalConversionRateTwo) { historyOne, historyTwo ->
-                    Pair(historyOne, historyTwo)
-                }.zip(historicalConversionRateThree) { pair, historyThree ->
-                    Pair(pair, historyThree)
-                }.flowOn(dispatcher)
+                historicalFlow(historicalConversionRateOne, historicalConversionRateTwo, historicalConversionRateThree)
+                    .flowOn(dispatcher)
                     .collectLatest { triple ->
                         //first historical response
                         handleFirstHistoricalState(triple)
@@ -133,6 +130,16 @@ class CurrencyConverterViewModel @Inject constructor(
             _historyRateTwo.value = ConversionRateState.Error(message = INTERNET_CONNECTIVITY_ERROR)
             _historyRateThree.value = ConversionRateState.Error(message = INTERNET_CONNECTIVITY_ERROR)
         }
+    }
+
+    fun historicalFlow(
+        historicalConversionRateOne: Flow<Either<Failure, ConversionResultRaw>>,
+        historicalConversionRateTwo: Flow<Either<Failure, ConversionResultRaw>>,
+        historicalConversionRateThree: Flow<Either<Failure, ConversionResultRaw>>
+    ) = historicalConversionRateOne.zip(historicalConversionRateTwo) { historyOne, historyTwo ->
+        Pair(historyOne, historyTwo)
+    }.zip(historicalConversionRateThree) { pair, historyThree ->
+        Pair(pair, historyThree)
     }
 
     private fun handleThirdHistoricalState(triple: Pair<Pair<Either<Failure, ConversionResultRaw>, Either<Failure, ConversionResultRaw>>, Either<Failure, ConversionResultRaw>>) {
@@ -162,7 +169,7 @@ class CurrencyConverterViewModel @Inject constructor(
         }
     }
 
-    private fun fetchLatestConversionRate(from: String, to: String) {
+    fun fetchLatestConversionRate(from: String, to: String) {
         if (connectivity.isConnected()) {
             val symbols = popularCurrencies.apply { add(to) }
             fetchConversionRate(url = ApiService.LATEST, base = from, symbols = symbols.joinToString { it })

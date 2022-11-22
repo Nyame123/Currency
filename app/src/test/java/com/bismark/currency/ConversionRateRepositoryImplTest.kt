@@ -8,6 +8,7 @@ import com.bismark.currency.core.rightOrNull
 import com.bismark.currency.data.ConversionRateRepositoryImpl
 import com.bismark.currency.data.datasource.RemoteDataSource
 import com.bismark.currency.data.rest.ConversionResultRaw
+import com.bismark.currency.provider.provideConversionRateSuccess
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -56,15 +57,12 @@ class ConversionRateRepositoryImplTest {
     @Test
     fun `given remote datasource when the response is successful return Either Right of the object`() = runTest {
 
-        val mockedSuccess = ConversionResultRaw(
+        val mockedSuccess = provideConversionRateSuccess(
             success = true,
             date = "2022-11-21",
             timestamp = 1669030923,
             base = BASE,
-            rates = mutableMapOf<String, Double>().apply {
-                put(SYMBOL, 1.845498)
-            },
-            errorBody = null
+            symbols = mutableListOf<String>().apply { add(SYMBOL) }
         )
 
         val result = Either.Right(b = mockedSuccess)
