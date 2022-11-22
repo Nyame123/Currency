@@ -31,7 +31,6 @@ class CurrencyConverterViewModelTest {
 
     lateinit var currencyConverterViewModel: CurrencyConverterViewModel
 
-    private val URL = "endpoint/"
     private val BASE = "EGP"
     private val SYMBOL = "USD"
 

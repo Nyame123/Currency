@@ -26,6 +26,7 @@ class CurrencyConverterFragment : Fragment() {
         private const val FROM_SELECTION_POSITION = "to_selection_position"
         private const val TO_SELECTION_POSITION = "from_selection_position"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,7 +109,6 @@ class CurrencyConverterFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-
         }
 
         currencyConverterBinding.toCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -121,7 +121,6 @@ class CurrencyConverterFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-
         }
     }
 

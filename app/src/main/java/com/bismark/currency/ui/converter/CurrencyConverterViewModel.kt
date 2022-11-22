@@ -85,7 +85,7 @@ class CurrencyConverterViewModel @Inject constructor(
                         )
                     }
                 }
-               // .flowOn(dispatcher)
+                .flowOn(dispatcher)
                 .catch {
                     _conversionRate.value = ConversionRateState.Error(message = FLOW_CONNECTION_ERROR)
                 }.collectLatest {
